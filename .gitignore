@@ -1,0 +1,24 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.vscode/
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+
+# Original local material; curated public copies live in docs/ and models/
+/照片/
+/3D模型/
+/Stewart_Platform_上位機/
+# Optional local GIFs and packaging output
+/GIF/*
+!/GIF/Logo.gif
+/dist/
+/build/
+*.spec
+._*
+~$*
