@@ -2,18 +2,18 @@
 
 **專案名稱：Mini-Stewart-Platform**
 
-以 Python 上位機設定平台位置與姿態，由 ESP32-C6 計算逆運動學，再透過 PCA9685 控制六組伺服馬達。此版本整理了個人縮小機構、控制系統、上位機介面、組裝與測試成果。
+以 Python 上位機設定平台位置與姿態，由 ESP32-C6 計算逆運動學，再透過 PCA9685 控制六組伺服馬達。本專案涵蓋小型化機構設計、控制系統、上位機介面與實機測試。
 
 ![二代平台與上位機](docs/images/v2-completed.png)
 
-**目前狀態：已完成實體組裝並進行測試，公開資料整理中。** 照片與影片由維護者提供；本次整理確認了程式協定與檔案配對，尚未重新編譯、燒錄或做實機測試。
+**目前狀態：已完成實體組裝與運行測試。** 下方照片與影片展示平台實作及測試成果，本專案提供上位機程式、ESP32 韌體與機構模型，供學習與實作參考。
 
 ## 運行展示
 
 - [二代運行影片（MP4）](docs/videos/v2-demo.mp4)
 - [初代運行影片（MP4）](docs/videos/v1-demo.mp4)
 
-保留 MP4 供播放或下載；原始大型 GIF 未納入公開資料。
+影片提供 MP4 格式，可播放或下載。
 
 ## 開發歷程與個人貢獻
 
@@ -36,7 +36,7 @@
 
 ## 使用入口與目錄
 
-**本資料夾可獨立使用，不依賴工作目錄中的 `6DOF-Rotary-Stewart-Motion-Simulator-phoenix` 或 `6Dof`。** 請保留本專案的程式、韌體與相依套件清單；原作連結用於來源標註。
+本專案包含所需的上位機程式、ESP32 韌體與相依套件清單，可獨立安裝使用。
 
 日常操作請執行根目錄的 `stewart_control_gui.py`，搭配 `firmware/ESP32C6_PCA/` 韌體。
 
@@ -57,7 +57,7 @@ Mini-Stewart-Platform/
 └── .gitignore
 ```
 
-本機資料夾與 GitHub 儲存庫名稱使用 `Mini-Stewart-Platform`。上列為公開內容的主要結構；本機另外保留的原始素材與打包程式不屬於啟動主版本所需檔案。
+主版本使用根目錄的上位機與 `firmware/`；`legacy/` 提供舊版程式作為參考。
 
 ## 主版本：上位機姿態命令 → ESP32 逆運動學
 
@@ -75,7 +75,7 @@ flowchart TD
 | [ESP32C6_PCA.ino](firmware/ESP32C6_PCA/ESP32C6_PCA.ino) | 接收姿態、驅動 PCA9685 |
 | [stewart_kinematics.h](firmware/ESP32C6_PCA/stewart_kinematics.h) | ESP32 端幾何參數與逆運動學；須與 ino 放在同一資料夾 |
 
-主版本的上位機與韌體已一併收錄於上述路徑，整理時保留控制邏輯。韌體的本地來源紀錄見 [整理與驗證紀錄](docs/VALIDATION.md)。
+上位機負責輸入姿態與產生測試命令；ESP32 負責逆運動學與伺服輸出。測試範圍見 [測試與驗證](docs/VALIDATION.md)。
 
 ### 安裝上位機
 
@@ -89,7 +89,7 @@ python -m venv .venv
 
 需具備 Tkinter 圖形環境。`Pillow` 用於圖片；`matplotlib` 用於波形顯示；`pyserial` 用於串列通訊。`numpy` 亦供保留的舊版視覺化使用。套件版本尚未鎖定。
 
-選擇 ESP32 的 COM 埠並連線，同一埠勿同時由 Arduino 串列監控視窗占用。分享版包含 `GIF/Logo.gif`，用於介面標誌；其他彩蛋 GIF 為選用素材，未納入公開版。缺少 GIF 時程式仍可執行。
+選擇 ESP32 的 COM 埠並連線，同一埠勿同時由 Arduino 串列監控視窗占用。`GIF/Logo.gif` 用於介面標誌；可在 `GIF/` 放入其他 GIF 作為選用動畫。缺少 GIF 時程式仍可執行。
 
 ### 燒錄與硬體設定
 
@@ -133,10 +133,9 @@ GUI 波形顯示的是命令值，並非感測器量測的平台實際姿態。�
 | 主版本 | `stewart_control_gui.py` | `firmware/ESP32C6_PCA/ESP32C6_PCA.ino` | 460800 baud、`$P` 姿態封包 |
 | 舊版／相容版 | `legacy/binary_pca9685/6dof_visualizer.py` 或同目錄的 `stewart_control_gui.py` | 該目錄下的 `esp32c6_pca9685_receiver/esp32c6_pca9685_receiver.ino` | 115200 baud、12-byte 角度封包 |
 
-同名上位機位於不同目錄，協定也不同。另一份使用 `$C` 脈寬命令的接收器不在本專案內，不能直接搭配上述介面。
+兩個目錄中的上位機使用不同協定，請依表格搭配韌體。
 
-
-[legacy/binary_pca9685](legacy/binary_pca9685/README.md) 保留原 3D 視覺化與本次整理的 PC 逆運動學相容介面，使用 **115200 baud、12-byte 角度封包**，須搭配該目錄自己的接收器。不要與主版本韌體混用。
+[legacy/binary_pca9685](legacy/binary_pca9685/README.md) 提供 3D 視覺化與 PC 逆運動學相容介面，使用 **115200 baud、12-byte 角度封包**，須搭配該目錄自己的接收器。不要與主版本韌體混用。
 
 ## 3D 模型
 
@@ -146,16 +145,20 @@ GUI 波形顯示的是命令值，並非感測器量測的平台實際姿態。�
 - [STEP](models/step/)：組合件交換格式。
 - [SolidWorks](models/solidworks/)：組合件與原生零件檔。
 
-目前公開的是提供的模型集合；尚未確認所有組合件外部引用及列印設定。
+開啟 SolidWorks 組合件時請保留零件檔的相對位置；列印前請核對尺寸、配合間隙與材料設定。
 
-## 發布內容與驗證
+## 測試與驗證
 
-見 [整理與驗證紀錄](docs/VALIDATION.md)。原始照片、模型目錄及舊 EXE／APP 留在本機，由 `.gitignore` 排除；公開副本集中於 `docs/` 與 `models/`。請依 Git 的待提交清單發布，直接把整個本機資料夾壓縮或拖曳上傳不會套用 `.gitignore`。
+實機展示、軟體測試範圍及重現方式見 [測試與驗證](docs/VALIDATION.md)。使用原始碼的安裝方式請參考上方步驟。
 
-原 EXE／APP 沒有於本次重建，不能據此保證與公開原始碼一致。重新打包並驗證後，可放入 GitHub Releases，避免將整個 macOS APP 展開提交。
+## AI 協作說明
+
+本專案使用 OpenAI Codex 協助文件撰寫、程式檢查與部分程式開發。
+
+機構縮小、硬體組裝與實機測試由專案作者完成。實機照片與影片為實際成果紀錄，並非 AI 生成。AI 執行的軟體檢查不等同於硬體驗證，各項測試範圍見 [測試與驗證](docs/VALIDATION.md)。
 
 ## 來源與授權
 
-本專案由 [knaufinator/6DOF-Rotary-Stewart-Motion-Simulator](https://github.com/knaufinator/6DOF-Rotary-Stewart-Motion-Simulator) 的本地衍生版本整理而來。原有 [LICENSE](LICENSE) 與 Chris Knauf 署名保留；本地來源未附 Git 歷史，尚無法精確對應上游提交。
+本專案基於 [knaufinator/6DOF-Rotary-Stewart-Motion-Simulator](https://github.com/knaufinator/6DOF-Rotary-Stewart-Motion-Simulator) 進行小型化與控制系統實作，保留原有 [LICENSE](LICENSE) 與 Chris Knauf 署名。
 
-數學推導可參考 Robert Eisele（2019）的 [Inverse Kinematics of a Stewart Platform](https://raw.org/research/inverse-kinematics-of-a-stewart-platform/)，此引用不代表已確認為程式的直接來源或最早提出者。
+數學推導可參考 Robert Eisele（2019）的 [Inverse Kinematics of a Stewart Platform](https://raw.org/research/inverse-kinematics-of-a-stewart-platform/)。

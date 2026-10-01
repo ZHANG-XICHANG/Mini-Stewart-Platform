@@ -2,7 +2,7 @@
 
 此目錄的兩個 PC 介面都搭配 `esp32c6_pca9685_receiver/esp32c6_pca9685_receiver.ino`，使用 115200 baud、12-byte 大端序角度封包。逆運動學在電腦執行。
 
-從此目錄啟動 `6dof_visualizer.py`（3D 視覺化）或 `stewart_control_gui.py`（本次整理的相容面板），一次只使用一個串列連線。先安裝根目錄的 requirements.txt。
+從此目錄啟動 `6dof_visualizer.py`（3D 視覺化）或 `stewart_control_gui.py`（二進位相容面板），一次只使用一個串列連線。先安裝根目錄的 requirements.txt。
 
 - `stewart_kinematics.py`：從原視覺化抽出的共用計算，三個數學方法內容保持一致。
 - `stewart_config.py`：舊版幾何，高度 91.92 mm。
