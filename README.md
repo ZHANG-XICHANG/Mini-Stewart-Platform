@@ -153,7 +153,10 @@ GUI 波形顯示的是命令值，並非感測器量測的平台實際姿態。�
 
 ## AI 協作說明
 
-本專案使用 OpenAI Codex 協助文件撰寫、程式檢查與部分程式開發。
+本專案使用 AI 工具協助開發：
+
+- **OpenAI Codex**：協助文件撰寫、程式檢查與部分程式開發。
+- **Claude Code（Anthropic）**：協助建立 [GitHub Pages 展示網站](https://zhang-xichang.github.io/Mini-Stewart-Platform/)、3D 模擬與架構圖，並協助找出與修正逆運動學旋轉矩陣的錯誤（見 [測試與驗證](docs/VALIDATION.md)）。
 
 機構縮小、硬體組裝與實機測試由專案作者完成。實機照片與影片為實際成果紀錄，並非 AI 生成。AI 執行的軟體檢查不等同於硬體驗證，各項測試範圍見 [測試與驗證](docs/VALIDATION.md)。
 
