@@ -6,7 +6,7 @@
 
 - [初代運行影片](videos/v1-demo.mp4)
 - [二代運行影片](videos/v2-demo.mp4)
-- [負載測試照片](images/v2-load-test.png)
+- [負載測試照片](assets/img/v2-load-test.jpg)
 
 上述資料展示系統運行情形；負載重量、測試時間、姿態誤差與最大工作範圍的量測數據尚未收錄，不能從展示影片推定其定量性能。
 
