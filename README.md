@@ -2,7 +2,9 @@
 
 # Mini-Stewart-Platform
 
-**小型六自由度 Stewart 平台｜ESP32-C6 控制與 Python 上位機**
+[繁體中文](README.zh-TW.md) | **English**
+
+**A miniature 6-DOF Stewart platform｜ESP32-C6 control with a Python host GUI**
 
 [![ESP32-C6](https://img.shields.io/badge/MCU-ESP32--C6-E7352C?logo=espressif&logoColor=white)](firmware/ESP32C6_PCA/)
 [![PCA9685](https://img.shields.io/badge/Driver-PCA9685-0A7BBB)](firmware/ESP32C6_PCA/ESP32C6_PCA.ino)
@@ -11,108 +13,109 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Pages](https://img.shields.io/badge/Demo-GitHub_Pages-222?logo=github)](https://zhang-xichang.github.io/Mini-Stewart-Platform/)
 
-以 Python 上位機設定平台位置與姿態，由 ESP32-C6 計算逆運動學，<br>
-再透過 PCA9685 控制六組伺服馬達。
+A Python host GUI sets the platform's position and orientation, the ESP32-C6 solves the inverse kinematics,<br>
+and a PCA9685 drives the six servo motors.
 
-<img src="docs/assets/img/v2-completed.jpg" alt="二代平台與上位機" width="720">
+<img src="docs/assets/img/v2-completed.jpg" alt="Second-generation platform with the host GUI" width="720">
 
-[運行展示](#運行展示) · [快速開始](#快速開始) · [硬體設定](#燒錄與硬體設定) · [通訊協定](#通訊協定) · [3D 模型](#3d-模型) · [測試與驗證](docs/VALIDATION.md)
+[Demo](#demo) · [Quick start](#quick-start) · [Hardware setup](#flashing-and-hardware-setup) · [Protocol](#communication-protocol) · [3D models](#3d-models) · [Testing & validation](docs/VALIDATION.md)
 
 </div>
 
 > [!NOTE]
-> **目前狀態：已完成實體組裝與運行測試。** 本專案提供上位機程式、ESP32 韌體與機構模型，涵蓋小型化機構設計、控制系統、上位機介面與實機測試，供學習與實作參考。
+> **Status: physically assembled and tested in operation.** This repository provides the host software, ESP32 firmware and mechanical models, covering the miniaturized mechanism, control system, host interface and hardware testing, as a reference for learning and building.
 
-## 運行展示
+## Demo
 
-| 二代運行影片 | 初代運行影片 |
+| Second-generation demo | First-generation demo |
 | :---: | :---: |
 | [▶ v2-demo.mp4](docs/videos/v2-demo.mp4) | [▶ v1-demo.mp4](docs/videos/v1-demo.mp4) |
 
-影片為 MP4 格式，點擊後可於 GitHub 播放或下載。
+The videos are MP4 files; click to play them on GitHub or download.
 
-## 開發歷程與個人貢獻
+## Development history and contributions
 
 <table>
   <tr>
-    <th align="center">初代實機</th>
-    <th align="center">二代實機</th>
+    <th align="center">First generation</th>
+    <th align="center">Second generation</th>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/img/v1-completed.jpg" alt="初代實機" height="260"></td>
-    <td align="center"><img src="docs/assets/img/v2-completed.jpg" alt="二代實機" height="260"></td>
+    <td align="center"><img src="docs/assets/img/v1-completed.jpg" alt="First-generation platform" height="260"></td>
+    <td align="center"><img src="docs/assets/img/v2-completed.jpg" alt="Second-generation platform" height="260"></td>
   </tr>
 </table>
 
-| 項目 | 內容 |
+| Area | Work |
 | --- | --- |
-| **機構調整** | 縮小平台機構，提供 STL、STEP 與 SolidWorks 設計檔。 |
-| **控制系統** | ESP32／PCA9685 控制實作，後續版本將逆運動學移至 ESP32。 |
-| **上位機修改** | 提供六軸手動操作、各軸正弦波設定與命令波形顯示。 |
-| **組裝與測試** | 完成實體組裝及運動、負載測試；詳細測試條件與量測數據待補充。 |
+| **Mechanism** | Scaled down the platform; STL, STEP and SolidWorks design files are included. |
+| **Control system** | ESP32 / PCA9685 control; later versions moved the inverse kinematics onto the ESP32. |
+| **Host GUI** | Six-axis manual control, per-axis sine-wave settings and command waveform display. |
+| **Assembly & testing** | Completed physical assembly plus motion and load tests; detailed test conditions and measurements are still to be added. |
 
 <table>
   <tr>
-    <th align="center">二代模型</th>
-    <th align="center">負載測試</th>
-    <th align="center">運行照片</th>
+    <th align="center">Second-generation CAD</th>
+    <th align="center">Load test</th>
+    <th align="center">Running</th>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/img/v2-cad.jpg" alt="二代模型" height="180"></td>
-    <td align="center"><img src="docs/assets/img/v2-load-test.jpg" alt="負載測試" height="180"></td>
-    <td align="center"><img src="docs/assets/img/v2-running.jpg" alt="運行照片" height="180"></td>
+    <td align="center"><img src="docs/assets/img/v2-cad.jpg" alt="Second-generation CAD model" height="180"></td>
+    <td align="center"><img src="docs/assets/img/v2-load-test.jpg" alt="Load test" height="180"></td>
+    <td align="center"><img src="docs/assets/img/v2-running.jpg" alt="Platform running" height="180"></td>
   </tr>
 </table>
 
 > [!IMPORTANT]
-> 負載測試照片僅記錄放置負載的測試情境。負載重量、持續時間、運動幅度及定位誤差尚未記錄於本專案，因此不據此宣稱最大承載量。
+> The load-test photo only documents a loaded test scenario. Load weight, duration, motion amplitude and positioning error have not been recorded in this project, so no maximum payload is claimed from it.
 
-## 系統架構
+## System architecture
 
-主版本由上位機傳送姿態命令，ESP32 負責逆運動學與伺服輸出。
+In the main version, the host sends pose commands and the ESP32 handles inverse kinematics and servo output.
 
 ```mermaid
 flowchart LR
-    A["上位機<br>X / Y / Z / Roll / Pitch / Yaw"] -->|"USB 串列<br>460800 baud"| C["ESP32-C6<br>座標轉換與逆運動學"]
-    C --> D["六組馬達角度<br>與 PWM 映射"]
-    D -->|I2C| E["PCA9685<br>驅動平台"]
+    A["Host GUI<br>X / Y / Z / Roll / Pitch / Yaw"] -->|"USB serial<br>460800 baud"| C["ESP32-C6<br>Frame transform & inverse kinematics"]
+    C --> D["Six servo angles<br>& PWM mapping"]
+    D -->|I2C| E["PCA9685<br>drives the platform"]
 ```
 
-| 檔案 | 用途 |
+| File | Purpose |
 | --- | --- |
-| [`stewart_control_gui.py`](stewart_control_gui.py) | 新版 Python 上位機，傳送姿態 |
-| [`ESP32C6_PCA.ino`](firmware/ESP32C6_PCA/ESP32C6_PCA.ino) | 接收姿態、驅動 PCA9685 |
-| [`stewart_kinematics.h`](firmware/ESP32C6_PCA/stewart_kinematics.h) | ESP32 端幾何參數與逆運動學；須與 ino 放在同一資料夾 |
+| [`stewart_control_gui.py`](stewart_control_gui.py) | New Python host GUI; sends poses |
+| [`ESP32C6_PCA.ino`](firmware/ESP32C6_PCA/ESP32C6_PCA.ino) | Receives poses and drives the PCA9685 |
+| [`stewart_kinematics.h`](firmware/ESP32C6_PCA/stewart_kinematics.h) | Geometry parameters and inverse kinematics on the ESP32; must sit in the same folder as the .ino |
 
 <details>
-<summary><b>專案目錄結構</b></summary>
+<summary><b>Repository layout</b></summary>
 
 ```text
 Mini-Stewart-Platform/
-├── stewart_control_gui.py        # 主版本上位機
-├── requirements.txt              # Python 相依套件
+├── stewart_control_gui.py        # Main host GUI
+├── requirements.txt              # Python dependencies
 ├── firmware/ESP32C6_PCA/
-│   ├── ESP32C6_PCA.ino           # 主版本韌體
-│   └── stewart_kinematics.h      # ESP32 逆運動學與幾何參數
-├── GIF/Logo.gif                  # 介面標誌
-├── docs/assets/img/              # 實機與模型照片（已壓縮 JPG）
-├── docs/videos/                  # 示範 MP4
-├── models/                       # STL、STEP、SolidWorks
-├── legacy/binary_pca9685/        # 舊版與二進位相容介面
-├── README.md
+│   ├── ESP32C6_PCA.ino           # Main firmware
+│   └── stewart_kinematics.h      # ESP32 inverse kinematics & geometry
+├── GIF/Logo.gif                  # GUI logo
+├── docs/assets/img/              # Hardware and model photos (compressed JPG)
+├── docs/videos/                  # Demo MP4s
+├── models/                       # STL, STEP, SolidWorks
+├── legacy/binary_pca9685/        # Legacy / binary-compatible interface
+├── README.md                     # English README
+├── README.zh-TW.md               # 繁體中文 README
 ├── LICENSE
 └── .gitignore
 ```
 
-主版本使用根目錄的上位機與 `firmware/`；`legacy/` 提供舊版程式作為參考。
+The main version uses the host GUI in the root and `firmware/`; `legacy/` keeps older code for reference.
 
 </details>
 
-## 快速開始
+## Quick start
 
-### 安裝上位機
+### Install the host GUI
 
-在專案根目錄開啟 PowerShell：
+Open PowerShell in the repository root:
 
 ```powershell
 python -m venv .venv
@@ -120,121 +123,121 @@ python -m venv .venv
 .\.venv\Scripts\python.exe stewart_control_gui.py
 ```
 
-| 套件 | 用途 |
+| Package | Purpose |
 | --- | --- |
-| `pyserial` | 串列通訊 |
-| `matplotlib` | 波形顯示 |
-| `Pillow` | 圖片 |
-| `numpy` | 保留的舊版視覺化 |
+| `pyserial` | Serial communication |
+| `matplotlib` | Waveform display |
+| `Pillow` | Images |
+| `numpy` | Retained legacy visualization |
 
-需具備 Tkinter 圖形環境；套件版本尚未鎖定。
+A Tkinter-capable desktop environment is required; package versions are not pinned yet.
 
-選擇 ESP32 的 COM 埠並連線即可操作。`GIF/Logo.gif` 用於介面標誌；可在 `GIF/` 放入其他 GIF 作為選用動畫，缺少 GIF 時程式仍可執行。
+Select the ESP32's COM port and connect. `GIF/Logo.gif` is the GUI logo; you can drop other GIFs into `GIF/` as optional animations, and the program still runs without them.
 
 > [!TIP]
-> 同一 COM 埠勿同時由 Arduino 串列監控視窗占用，否則上位機無法連線。
+> Don't keep the same COM port open in the Arduino Serial Monitor, or the host GUI won't be able to connect.
 
-### 燒錄與硬體設定
+### Flashing and hardware setup
 
-1. 在 Arduino IDE 安裝支援實際 ESP32-C6 開發板的 Espressif ESP32 套件。
-2. 安裝 `Adafruit PWM Servo Driver Library` 及其相依套件（包含 Adafruit BusIO）。
-3. 開啟 `firmware/ESP32C6_PCA/ESP32C6_PCA.ino`；同目錄必須包含 `stewart_kinematics.h`。
-4. 核對下列參數與實際機構後，再編譯及上傳。
+1. In the Arduino IDE, install the Espressif ESP32 board package that supports your ESP32-C6 board.
+2. Install `Adafruit PWM Servo Driver Library` and its dependencies (including Adafruit BusIO).
+3. Open `firmware/ESP32C6_PCA/ESP32C6_PCA.ino`; `stewart_kinematics.h` must be in the same folder.
+4. Check the parameters below against your actual mechanism, then compile and upload.
 
 <table>
-<tr><th>硬體與通訊</th><th>機構幾何與校正</th></tr>
+<tr><th>Hardware & communication</th><th>Geometry & calibration</th></tr>
 <tr valign="top"><td>
 
-| 項目 | 設定 |
+| Item | Setting |
 | --- | --- |
 | SDA / SCL | GPIO22 / GPIO23 |
-| PCA9685 位址 | `0x40` |
-| PCA9685 通道 | CH0～CH5 |
-| 串列速率 | 460800 baud |
-| 伺服 PWM 頻率 | **330 Hz** |
-| 通訊逾時 | 1 秒 |
+| PCA9685 address | `0x40` |
+| PCA9685 channels | CH0–CH5 |
+| Baud rate | 460800 baud |
+| Servo PWM frequency | **330 Hz** |
+| Communication timeout | 1 s |
 
 </td><td>
 
-| 項目 | 設定 |
+| Item | Setting |
 | --- | --- |
-| 底座／平台半徑 | 68 / 68 mm |
-| 搖臂／連桿長度 | 24 / 99 mm |
-| 中立平台高度 | **96.04 mm** |
-| 姿態單位 | 平移 mm、旋轉 degree |
-| 通道反轉 | CH0、CH2、CH4 |
-| 通道偏移 (µs) | 80、100、100、0、100、50 |
+| Base / platform radius | 68 / 68 mm |
+| Horn / rod length | 24 / 99 mm |
+| Neutral platform height | **96.04 mm** |
+| Pose units | Translation mm, rotation degrees |
+| Reversed channels | CH0, CH2, CH4 |
+| Channel offsets (µs) | 80, 100, 100, 0, 100, 50 |
 
 </td></tr>
 </table>
 
-- 伺服 PWM 頻率須符合實際伺服規格。
-- 通訊逾時：1 秒未收到有效姿態，韌體會觸發回中位處理。
+- The servo PWM frequency must match your servos' specification.
+- Communication timeout: if no valid pose arrives within 1 s, the firmware returns the platform to center.
 
 > [!WARNING]
-> 伺服電源依規格接 PCA9685 V+，ESP32 與 PCA9685 必須**共地**。邏輯 VCC 與 I2C 上拉應配合 ESP32 的 **3.3 V** 邏輯。
-> 韌體包含的 PCA 輸出校正數值針對原實機，不能直接當作其他硬體的量測結果。
+> Power the servos through PCA9685 V+ according to their specification, and the ESP32 and PCA9685 must **share a common ground**. Logic VCC and the I2C pull-ups must match the ESP32's **3.3 V** logic.
+> The PCA output calibration in the firmware is specific to the original build and should not be treated as measurements for other hardware.
 
-## 通訊協定
+## Communication protocol
 
-主版本格式（每包以換行結束）：
+Main-version format (each packet ends with a newline):
 
 ```text
 $P,x,y,z,roll,pitch,yaw,checksum
 ```
 
-| 指令 | 說明 |
+| Command | Description |
 | --- | --- |
-| `$P,...` | 姿態封包；數值格式化為小數兩位 |
-| `$V,0` | 關閉詳細回應 |
-| `$V,1` | 開啟詳細回應 |
+| `$P,...` | Pose packet; values formatted to two decimal places |
+| `$V,0` | Disable verbose responses |
+| `$V,1` | Enable verbose responses |
 
-**checksum**：各值乘 10 後逐項截斷為整數、加總再取低 8 位。韌體使用單精度浮點，上位機使用 Python 浮點，校驗在小數邊界仍需實測確認。
+**Checksum**: multiply each value by 10, truncate each to an integer, sum them, and keep the low 8 bits. The firmware uses single-precision floats while the host uses Python floats, so the checksum still needs testing at decimal boundaries.
 
 > [!CAUTION]
-> - GUI 波形顯示的是**命令值**，並非感測器量測的平台實際姿態。
-> - 「緊急停止」的程式行為為停止測試並送出回中心命令，**不是切斷馬達電源**。
-> - 手動送出單一命令後若未持續更新，韌體可能於 1 秒後回中位。
+> - The GUI waveforms show **commanded values**, not the platform's actual pose measured by sensors.
+> - "Emergency stop" stops the test and sends a return-to-center command; it **does not cut motor power**.
+> - After sending a single manual command without continuous updates, the firmware may return to center after 1 s.
 
-## 舊版與相容版
+## Legacy and compatible versions
 
-| 版本 | 上位機入口 | 配對韌體 | 通訊格式 |
+| Version | Host entry point | Matching firmware | Protocol |
 | --- | --- | --- | --- |
-| **主版本** | `stewart_control_gui.py` | `firmware/ESP32C6_PCA/ESP32C6_PCA.ino` | 460800 baud、`$P` 姿態封包 |
-| 舊版／相容版 | `legacy/binary_pca9685/6dof_visualizer.py`<br>或同目錄的 `stewart_control_gui.py` | `legacy/binary_pca9685/esp32c6_pca9685_receiver/` | 115200 baud、12-byte 角度封包 |
+| **Main** | `stewart_control_gui.py` | `firmware/ESP32C6_PCA/ESP32C6_PCA.ino` | 460800 baud, `$P` pose packets |
+| Legacy / compatible | `legacy/binary_pca9685/6dof_visualizer.py`<br>or `stewart_control_gui.py` in the same folder | `legacy/binary_pca9685/esp32c6_pca9685_receiver/` | 115200 baud, 12-byte angle packets |
 
-[legacy/binary_pca9685](legacy/binary_pca9685/README.md) 提供 3D 視覺化與 PC 逆運動學相容介面。
+[legacy/binary_pca9685](legacy/binary_pca9685/README.md) provides 3D visualization and a PC-side inverse-kinematics compatible interface.
 
 > [!WARNING]
-> 兩個目錄中的上位機使用不同協定，須搭配各自目錄的韌體，**不要與主版本韌體混用**。
+> The host programs in the two folders use different protocols. Pair each with the firmware in its own folder and **do not mix them with the main firmware**.
 
-## 3D 模型
+## 3D models
 
-詳見 [模型說明](models/README.md)。
+See the [model notes](models/README.md).
 
-| 格式 | 內容 |
+| Format | Contents |
 | --- | --- |
-| [STL](models/stl/) | 列印零件 |
-| [STEP](models/step/) | 組合件交換格式 |
-| [SolidWorks](models/solidworks/) | 組合件與原生零件檔 |
+| [STL](models/stl/) | Printable parts |
+| [STEP](models/step/) | Assembly exchange format |
+| [SolidWorks](models/solidworks/) | Assembly and native part files |
 
-開啟 SolidWorks 組合件時請保留零件檔的相對位置；列印前請核對尺寸、配合間隙與材料設定。
+Keep the part files' relative locations when opening the SolidWorks assembly; check dimensions, fit clearances and material settings before printing.
 
-## 測試與驗證
+## Testing and validation
 
-實機展示、軟體測試範圍及重現方式見 [測試與驗證](docs/VALIDATION.md)。
+See [Testing & validation](docs/VALIDATION.md) (Traditional Chinese) for hardware demos, software test coverage and how to reproduce them.
 
-## AI 協作說明
+## AI collaboration
 
-本專案使用 AI 工具協助開發：
+This project was developed with help from AI tools:
 
-- **[OpenAI Codex (@codex)](https://github.com/codex)**：協助文件撰寫、程式檢查與部分程式開發。
-- **Claude Code（Anthropic）**：協助建立 [GitHub Pages 展示網站](https://zhang-xichang.github.io/Mini-Stewart-Platform/)、3D 模擬與架構圖，並協助找出與修正逆運動學旋轉矩陣的錯誤（見 [測試與驗證](docs/VALIDATION.md)）。
+- **[OpenAI Codex (@codex)](https://github.com/codex)**: documentation, code review and parts of the code.
+- **Claude Code (Anthropic)**: built the [GitHub Pages showcase site](https://zhang-xichang.github.io/Mini-Stewart-Platform/), the 3D simulation and architecture diagrams, and helped find and fix an error in the inverse-kinematics rotation matrix (see [Testing & validation](docs/VALIDATION.md)).
 
-機構縮小、硬體組裝與實機測試由專案作者完成。實機照片與影片為實際成果紀錄，並非 AI 生成。AI 執行的軟體檢查不等同於硬體驗證。
+The mechanism miniaturization, hardware assembly and physical testing were done by the project author. The hardware photos and videos are real records, not AI-generated. Software checks run by AI are not a substitute for hardware validation.
 
-## 來源與授權
+## Credits and license
 
-本專案基於 [knaufinator/6DOF-Rotary-Stewart-Motion-Simulator](https://github.com/knaufinator/6DOF-Rotary-Stewart-Motion-Simulator) 進行小型化與控制系統實作，保留原有 [MIT License](LICENSE) 與 Chris Knauf 署名。
+This project builds on [knaufinator/6DOF-Rotary-Stewart-Motion-Simulator](https://github.com/knaufinator/6DOF-Rotary-Stewart-Motion-Simulator), miniaturizing it and implementing a new control system. The original [MIT License](LICENSE) and Chris Knauf's attribution are retained.
 
-數學推導可參考 Robert Eisele（2019）的 [Inverse Kinematics of a Stewart Platform](https://raw.org/research/inverse-kinematics-of-a-stewart-platform/)。
+For the mathematical derivation, see Robert Eisele (2019), [Inverse Kinematics of a Stewart Platform](https://raw.org/research/inverse-kinematics-of-a-stewart-platform/).
