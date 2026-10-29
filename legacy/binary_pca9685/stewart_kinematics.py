@@ -1,6 +1,8 @@
-"""Shared geometry solver extracted unchanged from the original visualizer.
+"""Shared geometry solver extracted from the original visualizer.
 
-Preserves the existing rotation convention; physical pose accuracy still requires calibration.
+The second row of the rotation (platform_pivot_y) now uses cos(roll)/cos(pitch) in the
+standard Rz(yaw)·Ry(roll)·Rx(pitch) positions; the original code had them swapped.
+Physical pose accuracy still requires calibration.
 """
 import numpy as np
 from math import pi, sin, cos, asin, atan2, sqrt, radians, degrees
@@ -114,8 +116,8 @@ class StewartKinematics:
                                     self.platform_coords_y[i] * (sin(pitch) * sin(roll) * cos(yaw) - cos(pitch) * sin(yaw)) + 
                                     position[0])
                 
-                platform_pivot_y[i] = (self.platform_coords_x[i] * cos(pitch) * sin(yaw) + 
-                                    self.platform_coords_y[i] * (cos(roll) * cos(yaw) + sin(roll) * sin(pitch) * sin(yaw)) + 
+                platform_pivot_y[i] = (self.platform_coords_x[i] * cos(roll) * sin(yaw) +
+                                    self.platform_coords_y[i] * (cos(pitch) * cos(yaw) + sin(roll) * sin(pitch) * sin(yaw)) +
                                     position[1])
                 
                 platform_pivot_z[i] = (-self.platform_coords_x[i] * sin(roll) + 

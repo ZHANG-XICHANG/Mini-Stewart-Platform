@@ -131,8 +131,8 @@ public:
         position[0];
       
       float platform_pivot_y = 
-        platform_coords_x[i] * cos_pitch * sin_yaw + 
-        platform_coords_y[i] * (cos_roll * cos_yaw + sin_roll * sin_pitch * sin_yaw) + 
+        platform_coords_x[i] * cos_roll * sin_yaw +
+        platform_coords_y[i] * (cos_pitch * cos_yaw + sin_roll * sin_pitch * sin_yaw) +
         position[1];
       
       float platform_pivot_z = 

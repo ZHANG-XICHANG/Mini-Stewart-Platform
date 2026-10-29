@@ -194,22 +194,19 @@
       </li>
       <li>
         <h3>旋轉矩陣與平台姿態</h3>
-        <p>平台接點的 \(z=0\)，所以只會用到旋轉矩陣的前兩欄。韌體實際使用的展開式如下（\(c_\ast=\cos,\ s_\ast=\sin\)）：</p>
-        <div class="math-block">$$\mathbf q_i = \mathbf R_{\text{fw}}\,\mathbf p_i + \begin{bmatrix}x\\y\\h_0+z\end{bmatrix},\qquad
-\mathbf R_{\text{fw}}\big|_{\text{col }1,2}=\begin{bmatrix}
-c_\phi c_\psi & s_\theta s_\phi c_\psi - c_\theta s_\psi\\
-\color{#f08a59}{c_\theta}\, s_\psi & \color{#f08a59}{c_\phi}\, c_\psi + s_\phi s_\theta s_\psi\\
--s_\phi & s_\theta c_\phi
-\end{bmatrix}$$
-          <span class="src">stewart_kinematics.h L128–141（<code>platform_pivot_x/y/z</code>）</span></div>
-        <p>由第三列可以看出，在這份實作中 <strong>roll \(\phi\) 對應繞 \(Y\) 軸</strong>（\(+x\) 側的點下降），<strong>pitch \(\theta\) 對應繞 \(X\) 軸</strong>。若與標準 \(\mathbf R=\mathbf R_z(\psi)\mathbf R_y(\phi)\mathbf R_x(\theta)\) 比較：</p>
-        <div class="math-block">$$\mathbf R_{zyx}\big|_{\text{col }1,2}=\begin{bmatrix}
+        <p>平台接點的 \(z=0\)，所以只會用到旋轉矩陣的前兩欄。韌體使用 \(\mathbf R=\mathbf R_z(\psi)\mathbf R_y(\phi)\mathbf R_x(\theta)\)（\(c_\ast=\cos,\ s_\ast=\sin\)）：</p>
+        <div class="math-block">$$\mathbf q_i = \mathbf R\,\mathbf p_i + \begin{bmatrix}x\\y\\h_0+z\end{bmatrix},\qquad
+\mathbf R\big|_{\text{col }1,2}=\begin{bmatrix}
 c_\phi c_\psi & s_\theta s_\phi c_\psi - c_\theta s_\psi\\
 \color{#8fb4ea}{c_\phi}\, s_\psi & \color{#8fb4ea}{c_\theta}\, c_\psi + s_\phi s_\theta s_\psi\\
 -s_\phi & s_\theta c_\phi
-\end{bmatrix}$$</div>
+\end{bmatrix}$$
+          <span class="src">stewart_kinematics.h L128–141（<code>platform_pivot_x/y/z</code>）</span></div>
+        <p>由第三列可以看出，在這份實作中 <strong>roll \(\phi\) 對應繞 \(Y\) 軸</strong>（\(+x\) 側的點下降），<strong>pitch \(\theta\) 對應繞 \(X\) 軸</strong>。</p>
         <div class="callout warn">
-          <p><strong>實作觀察：</strong>兩者只差在第二列的 \(c_\phi\) 與 \(c_\theta\) 互換（上方以顏色標示）。這段展開式從原始開源專案沿用下來，因此 \(\mathbf R_{\text{fw}}\) 不是嚴格的正交旋轉矩陣。用本站移植的同一套公式計算：只有 roll 或只有 pitch 為 10° 時，兩者算出的伺服角最多相差約 0.3°；當 \(\phi=\theta\) 或只有 yaw 時，結果完全相同。這只是公式層面的差異，對實機定位誤差的影響<span class="tag todo">待補</span>，需要量測才能確認。下方 3D 模擬可以切換兩種矩陣比較。</p>
+          <p><strong>已修正的錯誤：</strong>原始開源專案沿用下來的展開式，把第二列的兩個 cos 寫反了：</p>
+          <div class="math-block" style="margin:8px 0">$$\mathbf R_{\text{old}}\big|_{\text{row }2}=\begin{bmatrix}\color{#f08a59}{c_\theta}\, s_\psi & \color{#f08a59}{c_\phi}\, c_\psi + s_\phi s_\theta s_\psi\end{bmatrix}$$</div>
+          <p>這讓 \(\mathbf R_{\text{old}}^\mathsf T\mathbf R_{\text{old}}\ne\mathbf I\)：只有 pitch 時，球頭的 \(y\) 座標沒有隨傾斜內縮，計算中的平台會被拉長，15° 時接點半徑從 68 mm 變成約 69.7 mm；只有 roll 時則在 \(y\) 方向被壓扁。依韌體參數計算，修正前後的伺服角差異在單軸 5°／10°／15° 時約 0.07°／0.30°／0.7°；中立、平移與純 yaw 不受影響。韌體與舊版 Python 已改為上方的標準形式。修正後的實機效果<span class="tag todo">待補</span>，需要重新燒錄並量測。下方 3D 模擬可以切換到修正前的公式比較。</p>
         </div>
       </li>
       <li>
@@ -262,8 +259,8 @@ N_i&=2L_1\big[\cos\beta_i\,(q_{ix}-b_{ix})+\sin\beta_i\,(q_{iy}-b_{iy})\big]\\[4
           </div>
           <fieldset>
             <legend>旋轉矩陣</legend>
-            <label><input type="radio" name="sim-matrix" value="firmware" checked> 韌體展開式（與實機相同）</label><br>
-            <label><input type="radio" name="sim-matrix" value="zyx"> 標準 ZYX（比較用）</label>
+            <label><input type="radio" name="sim-matrix" value="firmware" checked> 目前韌體（標準 ZYX，已修正）</label><br>
+            <label><input type="radio" name="sim-matrix" value="legacy"> 修正前公式（比較用）</label>
           </fieldset>
           <div class="sim-status ok" data-status role="status" aria-live="polite">IK 成功</div>
           <div class="table-wrap">
@@ -496,9 +493,9 @@ $V,0 / $V,1                           # 關閉／開啟詳細回應</code></pre>
       <div><h4>做法</h4><p class="small">以 <code>$</code> 起頭、換行結尾分框，加上 100 ms 組包逾時、128 B 溢位重置、checksum、IK 驗證，以及 1 s 無有效封包自動回中。另外每 5 秒統計一次封包率與 IK 失敗數。</p></div>
     </div>
     <div class="challenge">
-      <h3>5｜旋轉矩陣的一致性</h3>
-      <div><h4>發現</h4><p class="small">沿用的展開式與標準 ZYX 矩陣在第二列有 \(c_\phi\leftrightarrow c_\theta\) 的差異。另外 roll／pitch 實際對應 \(Y\)／\(X\) 軸，跟一般航太慣例相反。</p></div>
-      <div><h4>評估</h4><p class="small">公式層面的差異在 10° 單軸時最多約 0.3°（見<a href="#kinematics">逆運動學</a>的比較）。是否修正，應該等有 IMU 量測後再決定，並同步修改上位機的軸向說明。</p></div>
+      <h3>5｜找出並修正沿用程式中的旋轉矩陣錯誤</h3>
+      <div><h4>發現</h4><p class="small">把韌體公式和標準 ZYX 逐項比對、檢查矩陣是否正交後，發現沿用的展開式在第二列把 \(c_\phi\) 與 \(c_\theta\) 寫反，計算中的平台不再是剛體。另外 roll／pitch 實際對應 \(Y\)／\(X\) 軸，跟一般航太慣例相反。</p></div>
+      <div><h4>處理</h4><p class="small">量化影響（10° 單軸約 0.3°、15° 約 0.7°，見<a href="#kinematics">逆運動學</a>），並在韌體與舊版 Python 改為標準 ZYX。修正後仍需燒錄並用 IMU 實測，確認定位是否改善<span class="tag todo">待補</span>。</p></div>
     </div>
   </div>
 </section>
@@ -511,7 +508,7 @@ $V,0 / $V,1                           # 關閉／開啟詳細回應</code></pre>
     <p class="lead">目前系統完成了「命令 → IK → 致動」的開迴路鏈路。下一步是把它變成可以量化評估的實驗平台。</p>
     <div class="future">
       <div class="card"><h3>1. 姿態量測與閉迴路</h3><p class="small">加裝 IMU 或用視覺標記追蹤平台姿態，先量化開迴路誤差，再評估 PID 或前饋補償的閉迴路控制。</p></div>
-      <div class="card"><h3>2. 運動學模型校正</h3><p class="small">修正旋轉矩陣並統一 roll／pitch 定義；以最小平方法辨識實際的接點位置、連桿長與伺服零點，取代手動調整的通道偏移。</p></div>
+      <div class="card"><h3>2. 運動學模型校正</h3><p class="small">以 IMU 驗證旋轉矩陣修正，並統一 roll／pitch 的軸向定義；以最小平方法辨識實際的接點位置、連桿長與伺服零點，取代手動調整的通道偏移。</p></div>
       <div class="card"><h3>3. 工作空間與奇異性分析</h3><p class="small">從單軸擴展到六維工作空間取樣；加入球頭角度與連桿干涉限制，用條件數評估靠近奇異點的區域。</p></div>
       <div class="card"><h3>4. 正運動學與軌跡規劃</h3><p class="small">以 Newton–Raphson 求數值正運動學，從伺服角還原平台姿態；在韌體端加入速度與加速度限制，讓軌跡平滑。</p></div>
       <div class="card"><h3>5. 動態與頻寬特性</h3><p class="small">掃頻量測 Bode 圖、建立伺服的一階或二階模型，探討負載對頻寬與穩定性的影響。</p></div>

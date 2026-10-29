@@ -2,8 +2,8 @@
  * Stewart 平台逆運動學 —— 逐行移植自 firmware/ESP32C6_PCA/stewart_kinematics.h
  * 以及 ESP32C6_PCA.ino 的角度→脈寬映射。僅供網頁模擬使用，不會控制硬體。
  *
- * matrix: 'firmware' = 韌體實際使用的展開式（預設，與實機一致）
- *         'zyx'      = 標準 Rz(ψ)·Ry(φ)·Rx(θ)，用來比較差異
+ * matrix: 'firmware' = 目前韌體（已修正，即標準 Rz(ψ)·Ry(φ)·Rx(θ)）
+ *         'legacy'   = 修正前的展開式（第二列 cosφ / cosθ 對調），用來比較差異
  */
 (function (global) {
   'use strict';
@@ -47,16 +47,16 @@
     const r = deg2rad(rollDeg), p = deg2rad(pitchDeg), y = deg2rad(yawDeg);
     const cr = Math.cos(r), sr = Math.sin(r), cp = Math.cos(p), sp = Math.sin(p);
     const cy = Math.cos(y), sy = Math.sin(y);
-    if (matrix === 'zyx') {
+    if (matrix === 'legacy') {
       return [
         [cr * cy, sp * sr * cy - cp * sy],
-        [cr * sy, cp * cy + sr * sp * sy],
+        [cp * sy, cr * cy + sr * sp * sy],
         [-sr, sp * cr],
       ];
     }
     return [
       [cr * cy, sp * sr * cy - cp * sy],
-      [cp * sy, cr * cy + sr * sp * sy],
+      [cr * sy, cp * cy + sr * sp * sy],
       [-sr, sp * cr],
     ];
   }

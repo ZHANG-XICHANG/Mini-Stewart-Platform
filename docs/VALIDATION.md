@@ -35,3 +35,9 @@ python -m unittest discover -s tests -v
 ```
 
 共用幾何模組的三個計算方法與原視覺化方法通過 AST 比對，確認抽取時保留原計算邏輯。3D 視覺化與相容面板亦通過無硬體的初始化檢查；這些檢查不衡量機構定位精度。
+
+## 旋轉矩陣修正
+
+原始碼沿用的旋轉展開式在第二列（`platform_pivot_y`）把 `cos(roll)` 與 `cos(pitch)` 對調，不是正交旋轉矩陣。主版本 `firmware/ESP32C6_PCA/stewart_kinematics.h` 與 `legacy/binary_pca9685/stewart_kinematics.py` 已改為標準 Rz(yaw)·Ry(roll)·Rx(pitch)；在此實作中 roll 繞 Y 軸、pitch 繞 X 軸。
+
+依韌體幾何參數計算，修正前後的伺服角差異在單軸傾斜 5°／10°／15° 時約為 0.07°／0.30°／0.7°；中立姿態、平移與純 yaw 不受影響。修正後韌體尚待重新燒錄與實機確認，上述 AST 比對結果是修正前的紀錄。
