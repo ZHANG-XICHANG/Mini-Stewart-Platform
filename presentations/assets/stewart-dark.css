@@ -1,0 +1,235 @@
+/* @theme stewart-dark */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+@import 'default';
+
+:root {
+  --bg: #0b1020;
+  --panel: #121a2e;
+  --line: #25304a;
+  --text: #e6edf7;
+  --muted: #8a9bb5;
+  --teal: #2bd4a0;
+  --orange: #f28c38;
+  --blue: #4ea8de;
+  --red: #ef5b6b;
+  --sans: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+  --mono: 'JetBrains Mono', Consolas, monospace;
+}
+
+section {
+  width: 1280px;
+  height: 720px;
+  padding: 64px 64px 52px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 23px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: flex-start !important;
+}
+
+/* The default theme stripes table rows with a light canvas color */
+section table, section table tr, section table tr:nth-child(2n),
+section table th, section table td {
+  background: transparent !important;
+  border-color: var(--line) !important;
+}
+
+/* Thin accent rule across the top of every content slide */
+section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--teal) 0 18%, var(--line) 18% 100%);
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 6px;
+  padding: 0;
+  border: none;
+  line-height: 1.25;
+}
+h1 .num {
+  font-family: var(--mono);
+  color: var(--teal);
+  font-size: 22px;
+  font-weight: 600;
+  margin-right: 14px;
+  vertical-align: 4px;
+}
+h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--muted);
+  margin: 0 0 22px;
+  border: none;
+  padding: 0;
+}
+h3 {
+  font-size: 21px;
+  color: var(--teal);
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+
+p, li { color: var(--text); }
+ul, ol { margin: 0; padding-left: 1.1em; }
+li { margin: 4px 0; }
+li::marker { color: var(--teal); }
+strong { color: #fff; font-weight: 700; }
+em { color: var(--orange); font-style: normal; }
+a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(78, 168, 222, 0.4); }
+
+code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: var(--panel);
+  color: #b9f3df;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+pre {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 8px 0;
+}
+pre code { background: none; border: none; padding: 0; font-size: 17px; color: var(--text); }
+
+table {
+  border-collapse: collapse;
+  font-size: 18px;
+  margin: 4px 0;
+  width: 100%;
+  display: table;
+}
+th, td {
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 6px 10px;
+  text-align: left;
+  background: transparent !important;
+  color: var(--text);
+}
+th { color: var(--muted); font-weight: 500; font-size: 15px; letter-spacing: 0.04em; }
+
+img { background: transparent; }
+
+/* Page number and footer */
+section::after {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--muted);
+  right: 40px;
+  bottom: 22px;
+}
+footer {
+  font-size: 13px;
+  color: var(--muted);
+  left: 64px;
+  bottom: 20px;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- Layout helpers ---------- */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+.cols-64 { display: grid; grid-template-columns: 1.55fr 1fr; gap: 32px; align-items: start; }
+.cols-46 { display: grid; grid-template-columns: 1fr 1.45fr; gap: 32px; align-items: start; }
+.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.center { text-align: center; }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+.card.accent { border-color: rgba(43, 212, 160, 0.55); }
+.card.warn { border-color: rgba(242, 140, 56, 0.6); }
+.card h3 { margin-top: 0; }
+.card p, .card li { font-size: 19px; }
+
+.small, .small li, .small p { font-size: 17px; line-height: 1.45; }
+.muted { color: var(--muted); }
+.caption { font-size: 14px; color: var(--muted); margin-top: 6px; text-align: center; }
+.mono { font-family: var(--mono); }
+
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 1px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  vertical-align: 2px;
+}
+.tbd {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 1px 10px;
+  border-radius: 4px;
+  color: var(--orange);
+  border: 1px dashed var(--orange);
+  background: rgba(242, 140, 56, 0.08);
+}
+.ok {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 1px 10px;
+  border-radius: 4px;
+  color: var(--teal);
+  border: 1px solid rgba(43, 212, 160, 0.6);
+}
+
+.frame { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; line-height: 0; }
+.frame img { width: 100%; display: block; }
+
+.kpi { display: flex; gap: 16px; margin-top: 8px; }
+.kpi div {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.kpi b { display: block; font-family: var(--mono); font-size: 26px; color: var(--teal); font-weight: 600; }
+.kpi span { font-size: 14px; color: var(--muted); }
+
+/* KaTeX display math */
+.katex-display { margin: 6px 0; }
+.katex { color: var(--text); font-size: 1.02em; }
+
+/* ---------- Cover ---------- */
+section.cover {
+  padding: 0;
+  background:
+    linear-gradient(90deg, var(--bg) 0 46%, rgba(11, 16, 32, 0.75) 60%, rgba(11, 16, 32, 0.15) 100%),
+    url('assets/img/v2-completed.jpg') right center / cover no-repeat;
+}
+section.cover::before { height: 6px; background: var(--teal); }
+section.cover .wrap { position: absolute; left: 72px; top: 150px; width: 640px; }
+section.cover .eyebrow {
+  font-family: var(--mono);
+  color: var(--teal);
+  font-size: 17px;
+  letter-spacing: 0.22em;
+}
+section.cover h1 { font-size: 64px; font-weight: 900; margin: 14px 0 12px; letter-spacing: 0.01em; }
+section.cover .sub { font-size: 26px; color: var(--text); line-height: 1.45; }
+section.cover .meta { margin-top: 44px; font-size: 18px; color: var(--muted); line-height: 1.8; }
+section.cover .meta b { color: var(--text); font-weight: 500; }
+
+/* ---------- Closing ---------- */
+section.closing h1 { font-size: 40px; }

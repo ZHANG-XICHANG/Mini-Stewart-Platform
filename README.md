@@ -12,13 +12,14 @@
 [![Arduino](https://img.shields.io/badge/Arduino-IDE-00878F?logo=arduino&logoColor=white)](firmware/ESP32C6_PCA/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Pages](https://img.shields.io/badge/Demo-GitHub_Pages-222?logo=github)](https://zhang-xichang.github.io/Mini-Stewart-Platform/)
+[![Slides](https://img.shields.io/badge/Slides-Marp-2BD4A0?logo=marp&logoColor=white)](https://zhang-xichang.github.io/Mini-Stewart-Platform/slides/)
 
 A Python host GUI sets the platform's position and orientation, the ESP32-C6 solves the inverse kinematics,<br>
 and a PCA9685 drives the six servo motors.
 
 <img src="docs/assets/img/v2-completed.jpg" alt="Second-generation platform with the host GUI" width="720">
 
-[Demo](#demo) · [Quick start](#quick-start) · [Hardware setup](#flashing-and-hardware-setup) · [Protocol](#communication-protocol) · [3D models](#3d-models) · [Testing & validation](docs/VALIDATION.md)
+[Demo](#demo) · [Quick start](#quick-start) · [Hardware setup](#flashing-and-hardware-setup) · [Protocol](#communication-protocol) · [3D models](#3d-models) · [Testing & validation](docs/VALIDATION.md) · [Slides](https://zhang-xichang.github.io/Mini-Stewart-Platform/slides/) ([PDF](presentations/stewart-platform.pdf))
 
 </div>
 

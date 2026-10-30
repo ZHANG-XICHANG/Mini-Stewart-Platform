@@ -12,13 +12,14 @@
 [![Arduino](https://img.shields.io/badge/Arduino-IDE-00878F?logo=arduino&logoColor=white)](firmware/ESP32C6_PCA/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Pages](https://img.shields.io/badge/Demo-GitHub_Pages-222?logo=github)](https://zhang-xichang.github.io/Mini-Stewart-Platform/)
+[![Slides](https://img.shields.io/badge/簡報-Marp-2BD4A0?logo=marp&logoColor=white)](https://zhang-xichang.github.io/Mini-Stewart-Platform/slides/)
 
 以 Python 上位機設定平台位置與姿態，由 ESP32-C6 計算逆運動學，<br>
 再透過 PCA9685 控制六組伺服馬達。
 
 <img src="docs/assets/img/v2-completed.jpg" alt="二代平台與上位機" width="720">
 
-[運行展示](#運行展示) · [快速開始](#快速開始) · [硬體設定](#燒錄與硬體設定) · [通訊協定](#通訊協定) · [3D 模型](#3d-模型) · [測試與驗證](docs/VALIDATION.md)
+[運行展示](#運行展示) · [快速開始](#快速開始) · [硬體設定](#燒錄與硬體設定) · [通訊協定](#通訊協定) · [3D 模型](#3d-模型) · [測試與驗證](docs/VALIDATION.md) · [技術簡報](https://zhang-xichang.github.io/Mini-Stewart-Platform/slides/)（[PDF](presentations/stewart-platform.pdf)）
 
 </div>
 
